@@ -51,8 +51,8 @@
 <!-- Custom css -->
 <link href="css/custom.css" rel="stylesheet">
 
-<link href="css/bootstrap.min.css" rel="stylesheet"> 
-<link href="css/bootstrap-multiselect.css" rel="stylesheet"> 
+ <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+<link href="bootstrap/css/bootstrap-multiselect.css" rel="stylesheet"> 
 
 <link rel="stylesheet" type="text/css" href="css/jquery.multiselect.css" />
 <script type="text/javascript" src="bootstrap/js/bootstrap-multiselect.js"></script>
@@ -1123,36 +1123,106 @@
 			<option value="BOQ2">Demo</option>
 			</select>
  -->
+ <form action="generateOffer" method="POST">
 <label>Subject:</label>							<label>Description:</label> 
-  <textarea rows="2" cols="50" id="subject">
+  <textarea rows="2" cols="50" id="subject" name="subject">
 Offer for Supply & Installation of Project.
-</textarea>		  <textarea rows="2" cols="50"  id="description">
+</textarea>		  <textarea rows="2" cols="50"  id="description" name="description">
  Supply & labor charges for Pipes , Fitting &  Products as per the Attached Annexures.
 </textarea> <br></br>
 
 <label>Select Annexure to be attached for offer:</label>		
-	<select  id="annexure">
+	<select  id="annexure" name="annexure">
 	  <option value="Annexure1" >Annexure1</option>
 	  <option value="Annexure2">Annexure2</option>
 	</select><br></br>
 <label>Delivery</label>      <input type="text"
-						value="As per executed schedule"  id="delivery"><br></br>
-<label>HSN Code</label> <input type="text" value="" id="HSN_Code">     <label>SAC Code</label> <input
-						type="text" value="" id="SAC_Code"><br></br>
-<label>Payment Terms:-</label>				
-<select size="5" name="payTerms" multiple="multiple" id="payTerms">
-  <option value="1">Payment as per each consignment delivery at site</option>
-  <option value="2">20% Against mobilization(On Labor)</option>
-  <option value="3">Condition 3</option>
-  <option value="4">Condition 4</option>
-  </select><textarea rows="2" cols="50"> Input extra Payment term here.</textarea>
- <br></br>
-<label>Terms & Conditions</label>
-<select size="5" name="Terms" multiple="multiple" id="termsConds">
-  <option value="1">Transport & insurance extra at actual</option>
-  <option value="2">Payment to be released eeithin 7 days after material delivery at site</option>
-  </select> <textarea rows="2" cols="50"> Input extra Payment term here.</textarea>
+						value="As per executed schedule"  id="deliveryTrem" name="deliveryTrem"><br></br>
+<label>HSN Code</label> <input type="text" value="" id="hsbCde" name="hsbCde">     <label>SAC Code</label> <input
+						type="text" value="" id="sacCde" name="sacCde"><br></br>
+<label>Payment Terms:-</label>	 <input type="text" id="payTerm1" value ="Payment as per each consignment delivery at site" name="payTerm1" /> <input type="text" id="payTerm2" value ="20% Against mobilization(On Labor)" name="payTerm2" /> 
+		<input type="text" id="payTerm3" name="payTerm3" /> <input type="text" id="payterm4" name="payterm4" />
+			
+<!-- <select size="5" name="payTerms" multiple="multiple" id="payTerms"  name="payTerms">
+  <option>Payment as per each consignment delivery at site</option>
+  <option >20% Against mobilization(On Labor)</option>
+ </select>
+  <input type="button" onClick="addTerm()" value="Add Term">
+  <input type="text" id="newTerm" />
+   -->
+  <label>Date</label>
+  <input type="text" value="" id="date" name="date"><br>
+  <input type="hidden" value =${boqNameList} name="boqNameList" >
+  <div class="col-md-4 ">
+  <div class="ph-20 feature-box text-center object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
+  	<h4>BOQ Revisions</h4>
+		<select class="form-control" id="revisionSection" name="project1" onChange="download($('#revisionSection').val());">
+				<option></option>
+		</select>                
+  </div>
+  </div>
+    <label>contact Name</label>  <input type="text"  name="contactName" > <label>Company Name</label>  <input type="text"  name="companyname" ><br>
+  
+  <label>Address line 1</label><input type="text" name="address1" >  <label>Address line 2</label><input type="text"  name="address2" >
+  <label>Address line 3</label>  <input type="text"  name="address3" >  <input type="hidden"  name="Rate1" >  <input type="hidden" value ="Rate2" name="Rate2" >
+  <br>   <input type="hidden" name="Amount1" > <input type="hidden"  name="Amount2" >  <input type="hidden"  name="Total" > 
+ 
+ 
+  <script>
+  function addTerm()
+  {
+	  var term = '<option >'+$('#newTerm').val()+'</option>';
+	  $('#payTerms').append(term);
+	  
+  }
+  
+  $(document).ready(function(){
+	   // we define and invoke a function
+	   (function(){
+	          
+	     var inputArray = $("input[name='boqNameList']")[0].value.split(",");
+	     
+	     var names = [];
+			$.each(inputArray, function(i, el){
+	    		if($.inArray(el, names) === -1) 
+	    		{
+	    		names.push(el);
+	    		}
+			});
 
+	     var dummy = "<option value=\"BOQRevisions\"><h5>BOQRevisions</h5></option>";
+	     
+	    $.each(names,function(i){
+	   			
+	   			var dummy1 = dummy.replace("BOQRevisions",names[i]);
+	   			
+	   			var tags = dummy1.replace("BOQRevisions",names[i]);
+	   			
+	   			$('#revisionSection').append(tags);
+	   			
+			});
+	     
+	   })();
+	});
+  </script>
+ <br></br>
+<label>Terms & Conditions</label>  <input type="text" id="term1" value ="Transport & insurance extra at actual" name="term1" />  <input type="text" id="term2" value ="Payment to be released eeithin 7 days after material delivery at site" name="term2" />
+		<input type="text" id="term3" name="term3" />  <input type="text" id="term4" name="term4" />
+<!-- <select size="5" name="Terms" multiple="multiple" id="termsConds" name="termsConds">
+  <option >Transport & insurance extra at actual</option>
+  <option >Payment to be released eeithin 7 days after material delivery at site</option>
+  </select>
+  <input type="button" onClick="addTerm()" value="Add Term">
+  <input type="text" id="newTermCond" />-->
+  <script>
+  
+  function addTerm()
+  {
+	  var term = '<option >'+$('#newTermCond').val()+'</option>';
+	  $('#termsConds').append(term);
+	  
+  }
+  </script>
 					<div class="col-md-2" id="offerDetailsForm" style="display:none">
 						<div class="ph-20 feature-box text-center object-non-visible"
 							data-animation-effect="fadeInDownSmall" data-effect-delay="100">
@@ -1163,7 +1233,6 @@ Offer for Supply & Installation of Project.
 					</div>
 					
 					
- <form action="generateOffer" method="POST">	
 
           	  <button type="submit" class="btn btn-default">Offer Generation</button>
             </form>
@@ -1205,7 +1274,7 @@ Offer for Supply & Installation of Project.
 	<!-- JavaScript files placed at the end of the document so the pages load faster -->
 	<!-- ================================================== -->
 	<!-- Jquery and Bootstap core js files -->
-	<script src="plugins/jquery.min.js"></script>
+	<script src="plugins/jquery/jquery.min.js"></script>
 	<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Magnific Popup javascript -->
 	<script src="plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
@@ -1219,7 +1288,7 @@ Offer for Supply & Installation of Project.
 	<!-- Initialization of Plugins -->
 	<script src="js/template.js"></script>
 	<!-- Custom Scripts -->
-	<script src="js/custom.js"></script>
+	<script src="plugins/jquery/custom.js"></script>
 
 
 	

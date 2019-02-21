@@ -22,7 +22,7 @@ public class ProjectDetailsDao {
 	private SessionFactory sessionFactory;
 
 	@Transactional
-	public void updateProject(ProjectDetails projectDetails) {
+	public void updateProjet(ProjectDetails projectDetails) {
 
 		Session session = sessionFactory.getCurrentSession();
 

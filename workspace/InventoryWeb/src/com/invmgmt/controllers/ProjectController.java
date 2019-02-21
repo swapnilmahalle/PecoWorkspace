@@ -2,6 +2,7 @@ package com.invmgmt.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.invmgmt.dao.BOQDetailsDao;
 import com.invmgmt.dao.ProjectDao;
 import com.invmgmt.dao.ProjectDetailsDao;
+import com.invmgmt.entity.BOQDetails;
 import com.invmgmt.entity.Project;
 import com.invmgmt.entity.ProjectDetails;
 import com.invmgmt.excel.ExcelReader;
@@ -26,13 +29,13 @@ public class ProjectController {
 
 	@Autowired
 	private ProjectDetailsDao projectDetailsDao;
-
-	@Autowired
-	private ExcelReader reader;
-
+	
 	@Autowired
 	private BOQDetailsDao boqDao;
-	
+
+	@Autowired
+	ExcelReader reader;
+
 	private static final String updateProjectviewName = "updatedDetails";
 	private static final String createProjectviewName = "projectDetails";
 	private static final String searchProjectviewName = "searchProjectResult";
@@ -48,6 +51,8 @@ public class ProjectController {
 
 		ModelAndView mav = new ModelAndView(createProjectviewName);
 
+		mav.addObject("boqNameList", String.join(",", ""));
+		mav.addObject("quotationNamesList", String.join(",", ""));
 		mav.addObject("projectName", project.getProjectName());
 		mav.addObject("projectDesc", project.getProjectDesc());
 		mav.addObject("projectId", project.getProjectId());
@@ -56,13 +61,46 @@ public class ProjectController {
 
 	@RequestMapping(value = "/updateProject", method = RequestMethod.POST)
 	protected ModelAndView updateProject(ProjectDetails projectDetails) throws Exception {
-		projectDetailsDao.updateProject(projectDetails);
+		projectDetailsDao.updateProjet(projectDetails);
 
 		Project project = projectDao.getProject(projectDetails.getProjectId());
+		
+		ArrayList<String> boqNames = boqDao.getAssociatedBOQNames(String.valueOf(project.getProjectId()));
+		ArrayList<String> quotationNames = new ArrayList<String>();
+		
 		String tableContent = "";
 
 		ModelAndView mav = new ModelAndView(updateProjectviewName);
+		
+		for(int i = 0; i < boqNames.size(); i++)
+		{
+		    if(boqNames.get(i)!=null&&boqNames.get(i).startsWith("Quotation_"))
+		    {
+			quotationNames.add(boqNames.get(i));
+			boqNames.remove(i);
+		    }
+		    
+		}
+		
+		if (boqNames != null && !boqNames.equals(""))
+		{
+		    mav.addObject("boqNameList", String.join(",", boqNames));
+		}
+		else 
+		{
+		    mav.addObject("boqNameList", "");
+		}
 
+		if (quotationNames != null && !quotationNames.equals(""))
+		{
+		    mav.addObject("quotationNamesList", String.join(",", quotationNames));
+		}
+		else 
+		{
+		    mav.addObject("quotationNamesList", "");
+		}
+
+		mav.addObject("projectId", project.getProjectId());
 		mav.addObject("projectName", project.getProjectName());
 		mav.addObject("projectDesc", project.getProjectDesc());
 		mav.addObject("address", projectDetails.getAddress());
@@ -101,31 +139,89 @@ public class ProjectController {
 	}
 
 	@RequestMapping(value = "/projectDetails", method = {RequestMethod.POST,RequestMethod.GET})
-	protected ModelAndView projectDetails(Project project) throws Exception {
+    protected ModelAndView projectDetails(Project project, RedirectAttributes redirectAttributes) throws Exception {
 
-		ProjectDetails projectDetails = projectDetailsDao.getProjectDetails(project.getProjectId());
-		
-		ArrayList<String> boqNames = boqDao.getAssociatedBOQNames(String.valueOf(project.getProjectId()));
+	ProjectDetails projectDetails = projectDetailsDao.getProjectDetails(project.getProjectId());
 
-		
-		String tableContent = "";
+	System.out.println("projectDetails Address is : " + projectDetails.getAddress());
 
-		ModelAndView mav = new ModelAndView(updateProjectviewName);
+	ArrayList<String> boqNames = boqDao.getAssociatedBOQNames(String.valueOf(project.getProjectId()));
+	ArrayList<String> quotationNames = new ArrayList<String>();
 
-		mav.addObject("boqNameList", String.join(",", boqNames));
-		mav.addObject("projectId", project.getProjectId());
-		mav.addObject("projectName", project.getProjectName());
-		mav.addObject("projectDesc", project.getProjectDesc());
-		mav.addObject("address", projectDetails.getAddress());
-		mav.addObject("contactEmail", projectDetails.getContactEmail());
-		mav.addObject("contactName", projectDetails.getContactName());
-		mav.addObject("contactPhone", projectDetails.getContactPhone());
-		mav.addObject("gstNumber", projectDetails.getGstNumber());
-		mav.addObject("poDate", projectDetails.getPoDate());
-		mav.addObject("poNumber", projectDetails.getPoNumber());
+	ArrayList<String> temp = new ArrayList<String>();
+	
+	String tableContent = "";
 
-		return mav;
+	
+	Map<String, ?> flashAttributes = redirectAttributes.getFlashAttributes();
+	
+	for(int i=0; i< flashAttributes.size();i++ )
+	{
+	    System.out.println(flashAttributes.keySet().toArray().toString());
 	}
+	
+	ModelAndView mav = new ModelAndView(updateProjectviewName);
+
+	if (projectDetails.getAddress() == null) {
+	    mav.addObject("address", "No Details");
+	    mav.addObject("contactEmail", "No Details");
+	    mav.addObject("contactName", "No Details");
+	    mav.addObject("contactPhone", "No Details");
+	    mav.addObject("gstNumber", "No Details");
+	    mav.addObject("poDate", "No Details");
+	    mav.addObject("poNumber", "No Details");
+	} else {
+	    mav.addObject("address", projectDetails.getAddress());
+	    mav.addObject("contactEmail", projectDetails.getContactEmail());
+	    mav.addObject("contactName", projectDetails.getContactName());
+	    mav.addObject("contactPhone", projectDetails.getContactPhone());
+	    mav.addObject("gstNumber", projectDetails.getGstNumber());
+	    mav.addObject("poDate", projectDetails.getPoDate());
+	    mav.addObject("poNumber", projectDetails.getPoNumber());
+	}
+
+	int removalIndex = 0;
+	
+	for(int i = 0; i < boqNames.size(); i++)
+	{
+	    if (boqNames.get(i) != null && boqNames.get(i).startsWith("Quotation_"))
+	    {
+		quotationNames.add(boqNames.get(i));		
+	    }	    
+	}
+	
+	for(int i = 0; i < boqNames.size(); i++)
+	{
+	    if (boqNames.get(i) != null && boqNames.get(i).startsWith("Quotation_"))
+	    {
+		continue;
+	    }
+	    else
+	    {
+		temp.add(boqNames.get(i));
+	    }
+	}
+	
+	boqNames = temp;
+	
+	if (boqNames != null && !boqNames.equals("")) {
+	    mav.addObject("boqNameList", String.join(",", boqNames));
+	} else {
+	    mav.addObject("boqNameList", "");
+	}
+
+	if (quotationNames != null && !quotationNames.equals("")) {
+	    mav.addObject("quotationNamesList", String.join(",", quotationNames));
+	} else {
+	    mav.addObject("quotationNamesList", "");
+	}
+
+	mav.addObject("projectId", project.getProjectId());
+	mav.addObject("projectName", project.getProjectName());
+	mav.addObject("projectDesc", project.getProjectDesc());
+
+	return mav;
+    }
 
 	private static final String projectRow = "<form action=\"projectDetails\" onClick=\"this.submit();\" method=\"POST\"> <div class=\"row\">" + " <div class=\"col-md-12 \">"
 			+ "   <div class=\"pv-30 ph-20 feature-box bordered shadow text-center object-non-visible\" data-animation-effect=\"fadeInDownSmall\" data-effect-delay=\"100\">"

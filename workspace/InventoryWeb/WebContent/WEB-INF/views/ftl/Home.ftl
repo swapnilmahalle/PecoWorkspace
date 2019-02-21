@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="./loginPage/img/favicon.png">
 
     <title>
-      PECO Projects | Home
+      HamDule INDUSTRIES | Home
     </title>
 
     <!-- Bootstrap core CSS -->
@@ -152,7 +152,7 @@
         <div class="col-md-12">
           <div class="text-center feature-head wow fadeInDown">
             <h1 class="">
-              Welcome to PECO Projects Inventory Management
+              Welcome to Hamdule Industries Inventry Management
             </h1>
 
           </div>

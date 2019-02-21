@@ -758,82 +758,217 @@
 
       <!-- main-container start -->
       <!-- ================ -->
-      <form action="updateInventory" method="POST">
+      
       <section class="main-container padding-bottom-clear">
       <!-- section -->
         <!-- ================ -->
         <section class="light-gray-bg pv-30 padding-bottom-clear clearfix">
           <div class="container">
+            <form action="updateInventory" method="POST">
             <div class="row">
               <div class="col-md-12 ">
 				<div class="table-responsive">                
-
+				
 				<table class="table inventoryDetails" style="display:none;">
                 <thead>
                   <tr>
-                    <th>Standard Type</th>
-                    <th>Grade</th>
-                    <th>Schedule</th>
-                    <th>Material Spec</th>
-                    <th>Size</th>
+                  	<th></th>
+                    <th>Inventory</th>
+                    <th>Material</th>
+                    <th>Type</th>
+                    <th>Manifacturing Method</th>
+                    <th>Class/Schedule</th>
                     <th>Ends</th>
+                    <th>Size</th>
                     <th>Quantity</th>
                     <th>Purchase Rate</th>
+                    <th>Project</th>
+                    <th>Location</th>
                   </tr>
                 </thead>
                 <tbody id="tableContentDetails">
 				</tbody>
 				</table>
+			</div>	
+		</div>
+	</div>
+ <!-- Challan Section Starts-->
+   
+   <div class="collapse" id="challan">
+   <label><h3></h3></label>
+   <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>PO No</label>
+      <input type="text" class="form-control" placeholder="Po No" name="poNo">
+    </div>
+    <div class="form-group col-md-6">
+      <label>PO Date</label>
+      <input type="text" class="form-control" placeholder="PO Date" name="poDate">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>From</label>
+      <input type="text" class="form-control" name="receivedFrom">
+    </div>
+    <div class="form-group col-md-6">
+      <label>Consignee</label>
+      <input type="text" class="form-control" name="Consignee">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Transport Mode</label>
+      <input type="text" class="form-control" name="transportMode">
+    </div>
+    <div class="form-group col-md-3">
+      <label>LR Number & Date</label>
+      <input type="text" class="form-control" name="lrNumberDate">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Vheicle Number</label>
+      <input type="text" class="form-control" name="vheicleNumber">
+    </div>
+    <div class="form-group col-md-3">
+      <label>GST No</label>
+      <input type="text" class="form-control" name="gstNo">
+    </div>
+  </div>
+  </div>
+ <!-- Challan Section Ends--> 
+ <br>
+ <br>
+  <!-- Invoice Section Starts--> 
+ 
+   <div class="collapse" id="invoice"> 
+  <label><h3></h3></label>	
+	<div class="form-row">	
+	<div class="form-group col-md-4">
+      <label>TaxInvoice No</label>
+      <input type="text" class="form-control" name="taxInvoiceNo">
+    </div>
+    <div class="form-group col-md-4">
+      <label>Addressed To</label>
+      <input type="text" class="form-control" name="addressedto1">
+    </div>
+	<div class="form-group col-md-4">
+      <label>Order Date</label>
+      <input type="text" class="form-control" name="orderDate">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Rate</label>
+      <input type="text" class="form-control" name="rate">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Contact Name</label>
+      <input type="text" class="form-control" name="contactName">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Mobile No</label>
+      <input type="text" class="form-control" name="mobileNo">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Hsn/Sac</label>
+      <input type="text" class="form-control" name="hsnOrSac">
+    </div>
+ </div>
+<div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Amount In Words</label>
+      <input type="text" class="form-control" name="amtInwrd1">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Email</label>
+      <input type="text" class="form-control" name="gstNo">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Invoice No</label>
+      <input type="text" class="form-control" name="invoiceNo">
+    </div>
+    <div class="form-group col-md-3">
+      <label>Order No</label>
+      <input type="text" class="form-control" name="orderNo">
+    </div>
+ </div>
+ </div>
+ <!-- Invoice Section Ends-->
+            
+	<div class="form-row">
+	<div class="col-md-4 ">
+	<div class="ph-20 feature-box text-center object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
+	<br>
+	<button type="button" data-toggle="collapse" data-target="#challan" class="btn btn-default">Challan Details</button>
+	</div>
+	</div>
+	<div class="col-md-4 ">
+	<div class="ph-20 feature-box text-center object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
+	<br>
+	<button type="button" data-toggle="collapse" data-target="#invoice" class="btn btn-default">Invoice Details</button>
+	</div>	
+	</div>
+	<div class="col-md-4 ">
+	<div class="ph-20 feature-box text-center object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
+	<br>
+		<button type="submit" id="updateButton" class="btn btn-default" Style="display:none;">Update Inventory</button>
+	</div>	
+	</div>	
+	</div>
+	
+	</form>
+				
                 <table class="table">
                 <thead>
                   <tr>
-                    <th>Standard Type</th>
-                    <th>Grade</th>
-                    <th>Schedule</th>
-                    <th>Material Spec</th>
-                    <th>Size</th>
+                    <th>Inventory</th>
+                    <th>Material</th>
+                    <th>Type</th>
+                    <th>Manifacturing Method</th>
+                    <th>Class/Schedule</th>
                     <th>Ends</th>
-                    <th>Quantity</th>
-                    <th>Purchase Rate</th>
+                    <th>Size</th>
                   </tr>
                 </thead>
                 <tbody id="tableContent">
                  <tr>
 <td>
 <div class="form-group">
-  <select class="form-control" name="standardType" id="standardType" onChange="myFunction(this.value,'standardType','grade');">
+  <select class="form-control" name="inventoryName" id="inventoryName" onChange="myFunction(this.value,'inventoryName','material');">
     <option></option>
-    <option value="ASME B-31.1">ASME B-31.1</option>
-    <option value="ASME B-31.2">ASME B-31.2</option>
-    <option value="ASME B-31.3">ASME B-31.3</option>
-    <option value="ASME B-31.4">ASME B-31.4</option>
+    <option value="Pipe">Pipe</option>
+    <option value="Fittings">Fittings</option>
+    <option value="Accesories">Accesories</option>
   </select>
 </div>
 </td>
 <td>
 <div class="form-group">
-  <select class="form-control" name="grade" id="grade" onChange="myFunction(this.value,'grade','schedule');">
-    <option></option>
-  </select>
-</div>
-</td>
-<td>
-<div class="form-group">
-  <select class="form-control" name="schedule" id="schedule" onChange="myFunction(this.value,'schedule','materialSpec');">
+  <select class="form-control" name="material" id="material" onChange="myFunction(this.value,'material','type');">
     <option></option>
   </select>
 </div>
 </td>
 <td>
 <div class="form-group">
-  <select class="form-control" name="materialSpec" id="materialSpec" onChange="myFunction(this.value,'materialSpec','size');">
+  <select class="form-control" name="type" id="type" onChange="myFunction($('#material').val(),'material','classOrGrade');">
     <option></option>
   </select>
 </div>
 </td>
 <td>
 <div class="form-group">
-  <select class="form-control" name="size" id="size" onChange="myFunction(this.value,'size','ends');">
+  <select class="form-control" name="manifacturingMethod" id="manifacturingMethod">
+    <option></option>
+    <option>Seamless</option>
+    <option>ERW</option>
+    <option>Centrifuge</option>
+  </select>
+</div>
+</td>
+<td>
+<div class="form-group">
+  <select class="form-control" name="classOrGrade" id="classOrGrade">
     <option></option>
   </select>
 </div>
@@ -842,17 +977,23 @@
 <div class="form-group">
   <select class="form-control" name="ends" id="ends">
     <option></option>
+    <option>Buttweld</option>
+    <option>Socket Weld/Threaded</option>
+    <option>Threaded</option>
+    <option>Plain End</option>
   </select>
 </div>
 </td>
 <td>
 <div class="form-group">
-  <input type="text" name="quantity" />
-</div>
-</td>
-<td>
-<div class="form-group">
-  <input type="text" name="purchaseRate" />
+  <select class="form-control" name="size" id="size">
+    <option></option>
+    <option>1</option>
+    <option>1.25</option>
+    <option>1.5</option>
+    <option>2</option>
+    <option>2.5</option>
+  </select>
 </div>
 </td>
 </tr>                 
@@ -861,7 +1002,6 @@
                   </div>
                 </div>
               </div>
-            </div>
             <br>
             <div class="row">
               <div class="col-md-4 ">
@@ -884,17 +1024,19 @@
 				</div>
 				<div class="col-md-4 ">
 					<div class="ph-20 feature-box text-center object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
+						<br>
+						<button type="button" class="btn btn-default" onClick="showInventory();">Show Available Inventory</button>
 					</div>					
 				</div>
 				<div class="col-md-4 ">
 					<div class="ph-20 feature-box text-center object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
 						<label></label>
 						<br>
-						<button type="submit" class="btn btn-default">Add Inventory</button>		
+						<button type="button" class="btn btn-default" onClick="appendInventory();">Add Inventory</button>		
 					</div>					
 				</div>							
 			</div>
-</form>			
+					
 			<div class="form-row">
 				<div class="col-md-4 ">
 					<div class="ph-20 feature-box text-center object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
@@ -907,8 +1049,7 @@
 				<div class="col-md-4 ">
 					<div class="ph-20 feature-box text-center object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="100">
 						<label></label>
-						<br>
-						<button type="button" class="btn btn-default" onClick="captureFileLocation();">Show Available Inventory</button>		
+												
 					</div>					
 				</div>
 			</div>
@@ -966,7 +1107,7 @@
     <script src="js/custom.js"></script>
 
 <script>
-function captureFileLocation() 
+function showInventory() 
 {
 	$.ajax({
 			type : 'POST',
@@ -991,10 +1132,52 @@ function myFunction(value, tagName, nextTagName) {
             
             console.log(data);
             console.log($(tag));
-            
+            			$(tag).html("<option></option>");
 						$(tag).append(data);
                         }
         });
+}
+</script>
+<script>
+var i = 0;
+function appendInventory() 
+{
+
+var inventoryName = $('#inventoryName').children("option:selected").val();
+var material = $('#material').children("option:selected").val();
+var type = $('#type').children("option:selected").val();
+var manifacturingMethod = $('#manifacturingMethod').children("option:selected").val();
+var classOrGrade = $('#classOrGrade').children("option:selected").val();
+var ends = $('#ends').children("option:selected").val();
+var size = $('#size').val();
+
+console.log(type);
+	
+	var	template = "<tr>"
+	+ "    <td> <input type='button' value='X' onClick='removeRow($(this));'></td>" 
+	+ "    <td> <input type='hidden' name='inventoryName' value='"+inventoryName+"'></input>"+inventoryName+"</td>"
+	+ "    <td>  <input type='hidden' name='material' value='"+material+"'></input>"+material+"</td>"
+	+ "    <td> <input type='hidden' name='type' value='"+type+"'></input>"+type+"</td>"
+	+ "    <td> <input type='hidden' name='manifMethod' value='"+manifacturingMethod+"'></input>"+manifacturingMethod+"</td>"
+	+ "    <td> <input type='hidden' name='gradeOrClass' value='"+classOrGrade+"'></input>"+classOrGrade+"</td>"
+	+ "    <td> <input type='hidden' name='ends' value='"+ends+"'></input>"+ends+"</td>"
+	+ "    <td> <input type='hidden' name='size' value='"+size+"'></input>"+size+"</td>"
+	+ "	   <td><input type='text' name='quantity' value=''></input></td>"
+	+ "	   <td><input type='text' name='purchaseRate' value=''></input></td>"
+	+ "	   <td><input type='text' name='project' value=''></input></td>"
+	+ "	   <td><input type='text' name='location' value=''></input></td>";
+
+	
+	console.log(template);
+            	$('.inventoryDetails').css("display","block");          	
+                $('#tableContentDetails').append(template);
+                
+                $('#updateButton').css("display","block");
+}
+
+function removeRow(thisObj)
+{
+	console.log(thisObj.parent().parent().remove());
 }
 </script>
 </body>

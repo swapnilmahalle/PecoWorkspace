@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.invmgmt.entity.OfferDetailsForm;
+import com.invmgmt.entity.BOQDetails;
+import com.invmgmt.entity.OfferDetails;
 import com.invmgmt.entity.Project;
 
 @Repository
@@ -22,7 +23,7 @@ public class OfferDetailDao {
 	private SessionFactory sessionFactory;
 
 	@Transactional
-	public int addOfferDetails(OfferDetailsForm off) {
+	public int addOfferDetails(OfferDetails off) {
 
 		int offerid;
 
@@ -34,41 +35,44 @@ public class OfferDetailDao {
 	}
 
 	@Transactional
-	public OfferDetailsForm getOfferDetails(int offerId) {
-		OfferDetailsForm offer = new OfferDetailsForm();
+	public OfferDetails getOfferDetails(int docNumber) {
+		OfferDetails offer = new OfferDetails();
 		Session session = sessionFactory.getCurrentSession();
 
-		String hql = "FROM offerdetails P WHERE P.offerId = ";
+		String hql = "FROM OfferDetails P WHERE P.docNumber = ";
 
-		Query query = session.createQuery(hql + offerId);
+		Query query = session.createQuery(hql + docNumber);
 		List results = query.getResultList();
 
 		Iterator itr = results.iterator();
 
 		while (itr.hasNext()) {
-			offer = (OfferDetailsForm) itr.next();
+			offer = (OfferDetails) itr.next();
 		}
 
 		return offer;
 	}
 	
-/*	@Transactional
-	public ArrayList<Project> getProject(String projectName) {
-		ArrayList<Project> projectList = new ArrayList<Project>();
-		
+	@Transactional
+	public float getRates(String boqName) {
+		ArrayList<BOQDetails> projectList = new ArrayList<>();
+		float sum = 0;
 		Session session = sessionFactory.getCurrentSession();
 
-		String hql = "FROM Project P WHERE P.projectName LIKE '%";
+		String hql = "FROM BOQDetails P WHERE P.boqName LIKE '%";
 
-		Query query = session.createQuery(hql + projectName + "%'");
+		Query query = session.createQuery(hql + boqName + "%'");
 		List results = query.getResultList();
 
 		Iterator itr = results.iterator();
 
 		while (itr.hasNext()) {
-			projectList.add((Project) itr.next());
+			BOQDetails boq =new BOQDetails();
+			boq =(BOQDetails) itr.next();
+			sum = sum +Float.parseFloat(boq.getErectionAmount()) + Float.parseFloat(boq.getSupplyAmount()); 
+		//	projectList.add((BOQDetails) itr.next());
 		}
 
-		return projectList;
-	}*/
+		return sum;
+	}
 }
